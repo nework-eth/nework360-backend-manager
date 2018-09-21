@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pmcaff.nework.manager.mapper.SysUserRoleMapper" >
+  <resultMap id="BaseResultMap" type="com.pmcaff.nework.manager.domain.SysUserRole" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="sys_user_id" property="sysUserId" jdbcType="BIGINT" />
+    <result column="sys_role_id" property="sysRoleId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <delete id="deleteRoleForUser" parameterType="map" >
+    delete from ne_sys_user_role
+    where
+    1=1
+    <if test="userId != null">
+      AND sys_user_id = #{userId,jdbcType=BIGINT}
+    </if>
+    <if test="roleId != null">
+      AND sys_role_id = #{roleId,jdbcType=BIGINT}
+    </if>
+  </delete>
+
+  <delete id="deleteByRoleId" parameterType="java.lang.Long" >
+    delete from ne_sys_user_role
+    where sys_role_id = #{roleId,jdbcType=BIGINT}
+  </delete>
+
+  <delete id="deleteByUserId" parameterType="java.lang.Long" >
+    delete from ne_sys_user_role
+    where sys_user_id = #{userId,jdbcType=BIGINT}
+  </delete>
+
+
+  <select id="getRoleIdsByUserId" resultType="java.lang.Long" parameterType="java.lang.Long" >
+    select
+    sys_role_id
+    from ne_sys_user_role
+    where sys_user_id = #{userId,jdbcType=BIGINT}
+  </select>
+
+
+  <sql id="Base_Column_List" >
+    id, sys_user_id, sys_role_id, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ne_sys_user_role
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ne_sys_user_role
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.pmcaff.nework.manager.domain.SysUserRole" >
+    insert into ne_sys_user_role (id, sys_user_id, sys_role_id, 
+      create_time, update_time)
+    values (#{id,jdbcType=BIGINT}, #{sysUserId,jdbcType=BIGINT}, #{sysRoleId,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pmcaff.nework.manager.domain.SysUserRole" >
+    insert into ne_sys_user_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="sysUserId != null" >
+        sys_user_id,
+      </if>
+      <if test="sysRoleId != null" >
+        sys_role_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="sysUserId != null" >
+        #{sysUserId,jdbcType=BIGINT},
+      </if>
+      <if test="sysRoleId != null" >
+        #{sysRoleId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pmcaff.nework.manager.domain.SysUserRole" >
+    update ne_sys_user_role
+    <set >
+      <if test="sysUserId != null" >
+        sys_user_id = #{sysUserId,jdbcType=BIGINT},
+      </if>
+      <if test="sysRoleId != null" >
+        sys_role_id = #{sysRoleId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pmcaff.nework.manager.domain.SysUserRole" >
+    update ne_sys_user_role
+    set sys_user_id = #{sysUserId,jdbcType=BIGINT},
+      sys_role_id = #{sysRoleId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

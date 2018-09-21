@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pmcaff.nework.manager.mapper.SysRolePermissionMapper" >
+  <resultMap id="BaseResultMap" type="com.pmcaff.nework.manager.domain.SysRolePermission" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="sys_role_id" property="sysRoleId" jdbcType="BIGINT" />
+    <result column="sys_permission_id" property="sysPermissionId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_tme" property="updateTme" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <delete id="deletePermForRole" parameterType="map" >
+    delete from ne_sys_role_permission
+    where
+    1=1
+    <if test="roleId != null">
+      AND sys_role_id = #{roleId,jdbcType=BIGINT}
+    </if>
+    <if test="permId != null">
+      AND sys_permission_id = #{permId,jdbcType=BIGINT}
+    </if>
+  </delete>
+
+  <delete id="deleteByRoleId" parameterType="java.lang.Long" >
+    delete from ne_sys_role_permission
+    where sys_role_id = #{roleId,jdbcType=BIGINT}
+  </delete>
+
+  <delete id="deleteByPermId" parameterType="java.lang.Long" >
+    delete from ne_sys_role_permission
+    where sys_permission_id = #{permId,jdbcType=BIGINT}
+  </delete>
+  
+  <select id="getPermIdsByRoleId" resultType="java.lang.Long" parameterType="java.lang.Long" >
+    select
+    sys_permission_id
+    from ne_sys_role_permission
+    where sys_role_id = #{roleId,jdbcType=BIGINT}
+  </select>
+
+
+  <sql id="Base_Column_List" >
+    id, sys_role_id, sys_permission_id, create_time, update_tme
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ne_sys_role_permission
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ne_sys_role_permission
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.pmcaff.nework.manager.domain.SysRolePermission" >
+    insert into ne_sys_role_permission (id, sys_role_id, sys_permission_id, 
+      create_time, update_tme)
+    values (#{id,jdbcType=BIGINT}, #{sysRoleId,jdbcType=BIGINT}, #{sysPermissionId,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTme,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pmcaff.nework.manager.domain.SysRolePermission" >
+    insert into ne_sys_role_permission
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="sysRoleId != null" >
+        sys_role_id,
+      </if>
+      <if test="sysPermissionId != null" >
+        sys_permission_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTme != null" >
+        update_tme,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="sysRoleId != null" >
+        #{sysRoleId,jdbcType=BIGINT},
+      </if>
+      <if test="sysPermissionId != null" >
+        #{sysPermissionId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTme != null" >
+        #{updateTme,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pmcaff.nework.manager.domain.SysRolePermission" >
+    update ne_sys_role_permission
+    <set >
+      <if test="sysRoleId != null" >
+        sys_role_id = #{sysRoleId,jdbcType=BIGINT},
+      </if>
+      <if test="sysPermissionId != null" >
+        sys_permission_id = #{sysPermissionId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTme != null" >
+        update_tme = #{updateTme,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pmcaff.nework.manager.domain.SysRolePermission" >
+    update ne_sys_role_permission
+    set sys_role_id = #{sysRoleId,jdbcType=BIGINT},
+      sys_permission_id = #{sysPermissionId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_tme = #{updateTme,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

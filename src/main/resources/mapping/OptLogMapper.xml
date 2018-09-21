@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pmcaff.nework.manager.mapper.OptLogMapper" >
+  <resultMap id="BaseResultMap" type="com.pmcaff.nework.manager.domain.OptLog" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="operator" property="operator" jdbcType="VARCHAR" />
+    <result column="module" property="module" jdbcType="VARCHAR" />
+    <result column="opt_type" property="optType" jdbcType="VARCHAR" />
+    <result column="data_PK" property="dataPk" jdbcType="VARCHAR" />
+    <result column="opt_value" property="optValue" jdbcType="VARCHAR" />
+    <result column="opt_time" property="optTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <select id="listItemByParam" parameterType="map"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from ne_opt_log
+    WHERE
+    1=1
+    <if test="module != null">
+      AND module LIKE CONCAT('%',#{module},'%' )
+    </if>
+    <if test="data_PK != null">
+      AND data_PK = #{data_PK}
+    </if>
+    <if test="operator != null">
+      AND operator LIKE CONCAT('%',#{operator},'%' )
+    </if>
+    <if test="opt_type != null">
+      AND opt_type = #{opt_type}
+    </if>
+    <if test="startTime != null and endTime != null">
+      AND opt_time
+      BETWEEN #{startTime} AND #{endTime}
+    </if>
+    ORDER BY opt_time DESC
+    <if test="start != null  and limit != null ">
+      LIMIT #{start}, #{limit}
+    </if>
+  </select>
+
+  <sql id="Base_Column_List" >
+    id, operator, module, opt_type, data_PK, opt_value, opt_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from ne_opt_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ne_opt_log
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.pmcaff.nework.manager.domain.OptLog" >
+    insert into ne_opt_log (id, operator, module,
+    opt_type, data_PK, opt_value,
+    opt_time)
+    values (#{id,jdbcType=BIGINT}, #{operator,jdbcType=VARCHAR}, #{module,jdbcType=VARCHAR},
+    #{optType,jdbcType=VARCHAR}, #{dataPk,jdbcType=VARCHAR}, #{optValue,jdbcType=VARCHAR},
+    #{optTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pmcaff.nework.manager.domain.OptLog" >
+    insert into ne_opt_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="operator != null" >
+        operator,
+      </if>
+      <if test="module != null" >
+        module,
+      </if>
+      <if test="optType != null" >
+        opt_type,
+      </if>
+      <if test="dataPk != null" >
+        data_PK,
+      </if>
+      <if test="optValue != null" >
+        opt_value,
+      </if>
+      <if test="optTime != null" >
+        opt_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="module != null" >
+        #{module,jdbcType=VARCHAR},
+      </if>
+      <if test="optType != null" >
+        #{optType,jdbcType=VARCHAR},
+      </if>
+      <if test="dataPk != null" >
+        #{dataPk,jdbcType=VARCHAR},
+      </if>
+      <if test="optValue != null" >
+        #{optValue,jdbcType=VARCHAR},
+      </if>
+      <if test="optTime != null" >
+        #{optTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pmcaff.nework.manager.domain.OptLog" >
+    update ne_opt_log
+    <set >
+      <if test="operator != null" >
+        operator = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="module != null" >
+        module = #{module,jdbcType=VARCHAR},
+      </if>
+      <if test="optType != null" >
+        opt_type = #{optType,jdbcType=VARCHAR},
+      </if>
+      <if test="dataPk != null" >
+        data_PK = #{dataPk,jdbcType=VARCHAR},
+      </if>
+      <if test="optValue != null" >
+        opt_value = #{optValue,jdbcType=VARCHAR},
+      </if>
+      <if test="optTime != null" >
+        opt_time = #{optTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pmcaff.nework.manager.domain.OptLog" >
+    update ne_opt_log
+    set operator = #{operator,jdbcType=VARCHAR},
+    module = #{module,jdbcType=VARCHAR},
+    opt_type = #{optType,jdbcType=VARCHAR},
+    data_PK = #{dataPk,jdbcType=VARCHAR},
+    opt_value = #{optValue,jdbcType=VARCHAR},
+    opt_time = #{optTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

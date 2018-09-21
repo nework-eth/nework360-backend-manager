@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pmcaff.nework.manager.mapper.SysRoleMapper" >
+  <resultMap id="BaseResultMap" type="com.pmcaff.nework.manager.domain.SysRole" >
+    <id column="role_id" property="roleId" jdbcType="VARCHAR" />
+    <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+    <result column="available" property="available" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    role_id, role_name, available
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ne_sys_role
+    where role_id = #{roleId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ne_sys_role
+    where role_id = #{roleId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pmcaff.nework.manager.domain.SysRole" >
+    insert into ne_sys_role (role_id, role_name, available
+      )
+    values (#{roleId,jdbcType=VARCHAR}, #{roleName,jdbcType=VARCHAR}, #{available,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pmcaff.nework.manager.domain.SysRole" >
+    insert into ne_sys_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="roleId != null" >
+        role_id,
+      </if>
+      <if test="roleName != null" >
+        role_name,
+      </if>
+      <if test="available != null" >
+        available,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="roleId != null" >
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="roleName != null" >
+        #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="available != null" >
+        #{available,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pmcaff.nework.manager.domain.SysRole" >
+    update ne_sys_role
+    <set >
+      <if test="roleName != null" >
+        role_name = #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="available != null" >
+        available = #{available,jdbcType=CHAR},
+      </if>
+    </set>
+    where role_id = #{roleId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pmcaff.nework.manager.domain.SysRole" >
+    update ne_sys_role
+    set role_name = #{roleName,jdbcType=VARCHAR},
+      available = #{available,jdbcType=CHAR}
+    where role_id = #{roleId,jdbcType=VARCHAR}
+  </update>
+</mapper>
